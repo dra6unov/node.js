@@ -2,7 +2,8 @@ var express = require("express");
 var fs = require("fs");
  
 var app = express();
-app.use(function(request, response, next){
+//Middleware или иначе функция, которая выполняется перед запросом
+/*app.use(function(request, response, next){
      
     var now = new Date();
     var hour = now.getHours();
@@ -18,7 +19,7 @@ app.use(function(request, response, next){
  
 app.get("/", function(request, response){
     response.send("Hello");
-});
+});*/
 
 //Виды маршрутизации
 //? указывает, что символ 1 может встречаться 1 или 0 раз, т.е. 11 или 1
@@ -48,6 +49,7 @@ app.get(/.*(\.)html$/, function(request, response){
 });
 */
 
+/*
 //Передача параметров в маршруте
 app.get("/prod/:prodId", function(request, response){
     response.send("prodId: " + request.params["prodId"]);
@@ -57,5 +59,41 @@ app.get("/prod/:prodId", function(request, response){
 app.get("/ab/:abId/cd/:cdId", function(request, response){
     response.send(`ab: ${request.params["abId"]}  cd: ${request.params["cdId"]}`);
 });
+*/
+
+/*
+//express.Router
+var rout = express.Router();
+//Подмаршрут /product/
+rout.route("/").get(function(request,response){
+    response.send("Product list");
+});
+
+//Подмаршрут /product/1
+rout.route("/:id").get(function(request,response){
+    response.send(`Id: ${request.params.id}`);
+});
+
+//Соединение основного маршрута с его "мелкими" частями
+app.use("/product", rout);
+*/
+
+//Статические файлы
+//для вызыва компонента используется app.use(), express.static указывает, что компонент является статическим
+//__dirname + "/public") указывает на место, где располагается статический файл, а именно корневая папка + public (папка)
+//так же запрос происходит по маршруту http://localhost:3000/about.html. Т.е. в самой ссылке не указывается папка паблик.
+//Можно задать маршрут к статическому файлу через добавление "/static" и тогда запрос будет выглядеть http://localhost:3000/static/about.html
+app.use("/static", express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public"));
+
+app.get("/", function(request, response){
+    response.send("<h1>Main Page</h1>");
+});
+
+app.get("/contact", function(request, response){
+    response.send("<h1>Contact</h1>");
+});
+
+
 
 app.listen(3000);

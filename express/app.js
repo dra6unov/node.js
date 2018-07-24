@@ -53,5 +53,9 @@ app.get("/prod/:prodId", function(request, response){
     response.send("prodId: " + request.params["prodId"]);
 });
 
+//Передача нескольких параметров в маршруте
+app.get("/ab/:abId/cd/:cdId", function(request, response){
+    response.send(`ab: ${request.params["abId"]}  cd: ${request.params["cdId"]}`);
+});
 
 app.listen(3000);

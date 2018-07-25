@@ -1,0 +1,43 @@
+<!--reg.html является статической страницей для примера с работой json и ajax-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+    <h1>Регистрация пользователя</h1>
+    <form method="POST" action="/reg" name="regForm">
+    <label>Введите имя</label><br>
+    <input type="text" name="userName"><br><br>
+    <label>Введите возраст</label>
+    <input type="number" name="userAge"><br><br>
+    <input type="submit" value="Отправить">
+    </form>
+    <script>
+        $("form").submit(function(e){
+            //Не вызывает переход по адресу /reg
+            e.preventDefault();
+            var regForm = document.forms["regForm"];
+            var name = regForm.elements["userName"].value;
+            var age = regForm.elements["userAge"].value;
+
+            $.ajax({
+                type: "POST",
+                url: "/user",
+                data: JSON.stringify({userName: name, userAge: age}),
+                dataType: "JSON",
+                contentType: "application/JSON",
+                success: function(data){
+                    console.log(data);
+                },
+            });
+        });
+    </script>
+</body>
+</html>
